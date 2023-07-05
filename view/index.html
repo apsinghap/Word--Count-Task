@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Request Form</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <form id="apiForm">
+    <input type="text" id="inputField" placeholder="Enter Website url" />
+    <br><br>
+    <button type="submit">get insight</button>
+  </form>
+
+  <div id="responseContainer"></div>
+  <br><br>
+
+  <script>
+    const form = document.getElementById('apiForm');
+    const inputField = document.getElementById('inputField');
+    const responseContainer = document.getElementById('responseContainer');
+
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const endpoint = inputField.value;
+      const requestData = {
+        websiteUrl: endpoint
+      };
+
+      try {
+        // Make POST request using Axios
+        const response = await axios.post("http://localhost:3000/test/word-count", requestData);
+        console.log('API response:', response.data);
+        // Update the response container with the response data
+        responseContainer.textContent = ("Total Word: "+JSON.stringify(response.data.count));
+      } catch (error) {
+        console.error('An error occurred:', error.message);
+        // Handle the error here
+      }
+    });
+  </script>
+</body>
+</html>
